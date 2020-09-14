@@ -37,9 +37,7 @@ def runLighting():
     # pigpioの初期化
     light = initLighting()
     flag = True
-    counter = 0
-    while counter < 5:
-        counter = counter + 1
+    while True:
         time.sleep(0.005)
         for index, pin in enumerate(GPIO):
             # PWMの設定(色の設定)
