@@ -58,17 +58,17 @@ def runLighting():
                 flag = True
 
 
-def on_connect(client, userdata, flag, rc):  # ブローカーに接続できたときの処理
+def onConnect(client, userdata, flag, rc):  # ブローカーに接続できたときの処理
     print("Connected with result code " + str(rc))  # 接続できた旨表示
     client.subscribe(TOPIC)  # subするトピックを設定
 
 
-def on_disconnect(client, userdata, flag, rc):  # ブローカーが切断したときの処理
+def onDisconnect(client, userdata, flag, rc):  # ブローカーが切断したときの処理
     if rc != 0:
         print("Unexpected disconnection.")
 
 
-def on_message(client, userdata, msg):  # メッセージが届いたときの処理
+def onMessage(client, userdata, msg):  # メッセージが届いたときの処理
     # msg.topicにトピック名が，msg.payloadに届いたデータ本体が入っている
     if msg.payload.value == "1":
         runLighting()
@@ -80,9 +80,9 @@ def on_message(client, userdata, msg):  # メッセージが届いたときの�
 def main():
     # MQTTの接続設定
     client = mqtt.Client()                 # クラスのインスタンス(実体)の作成
-    client.on_connect = on_connect         # 接続時のコールバック関数を登録
-    client.on_disconnect = on_disconnect   # 切断時のコールバックを登録
-    client.on_message = on_message         # メッセージ到着時のコールバック
+    client.on_connect = onConnect         # 接続時のコールバック関数を登録
+    client.on_disconnect = onDisconnect   # 切断時のコールバックを登録
+    client.on_message = onMessage         # メッセージ到着時のコールバック
     client.connect(HOST, 1883, 60)         # 接続先は自分自身
     client.loop_forever()                  # 永久ループして待ち続ける
 
