@@ -1,0 +1,4 @@
+json
+paho-mqtt
+pigpio
+pigpio_dht
