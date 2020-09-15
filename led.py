@@ -2,10 +2,9 @@
 # -*- coding: utf-8 -*-
 
 import time
-# GPIOのライブラリをインポート
-import pigpio
-# MQTTのライブラリをインポート
-import paho.mqtt.client as mqtt
+import pigpio  # GPIOのライブラリをインポート
+import paho.mqtt.client as mqtt  # MQTTのライブラリをインポート
+import json  # JSONのライブラリをインポート
 
 TOPIC = "test/001"
 HOST = "localhost"
@@ -68,7 +67,8 @@ def onDisconnect(client, userdata, flag, rc):  # ブローカーが切断した�
 
 def onMessage(client, userdata, msg):  # メッセージが届いたときの処理
     # msg.topicにトピック名が，msg.payloadに届いたデータ本体が入っている
-    if msg.payload.value == "1":
+    payload = json.loads(msg.payload)
+    if payload.value == 0:
         runLighting()
     else:
         print("Received message '" + str(msg.payload) +
