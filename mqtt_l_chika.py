@@ -4,6 +4,7 @@
 import time
 import pigpio  # pigpioライブラリをインポートする
 import paho.mqtt.client as mqtt  # MQTTのライブラリをインポート
+import json  # JSONのライブラリをインポート
 
 TOPIC = "test/001"
 HOST = "localhost"
@@ -34,7 +35,7 @@ def onDisconnect(client, userdata, flag, rc):  # ブローカーが切断した�
 
 def onMessage(client, userdata, msg):  # メッセージが届いたときの処理
     # msg.topicにトピック名が，msg.payloadに届いたデータ本体が入っている
-    mq_value = float(msg.payload.value)
+    mq_value = float(json.loads(msg.payload).value)
     if mq_value > 0:
         runChika(mq_value)
     else:
