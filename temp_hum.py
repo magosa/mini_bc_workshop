@@ -4,6 +4,7 @@
 import paho.mqtt.client as mqtt     # MQTTのライブラリをインポート
 from time import sleep              # 3秒間のウェイトのために使う
 from pigpio_dht import DHT11        # DHTセンサーのライブラリをインポート
+import json
 
 TOPIC = "test/001"
 HOST = "localhost"
@@ -37,7 +38,9 @@ def main():  # メイン関数   この関数は末尾のif文から呼び出さ
 
     # 永久に繰り返す
     while True:
-        client.publish(TOPIC, sensor.read())    # トピック名とメッセージを決めて送信
+        payload = json.dumps(sensor.read(), ensure_ascii=False, indent=4)
+        print(payload)
+        client.publish(TOPIC, payload)    # トピック名とメッセージを決めて送信
         sleep(3)   # 3秒待つ
 
 
